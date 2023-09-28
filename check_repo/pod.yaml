@@ -11,13 +11,13 @@ spec:
     command: ['sh', '-c', "sleep", "600"]
   containers:
     - name: web
-      image: nginx:1.23.4
+      image: repo.com/nginx:1.24
       ports:
         - name: web
           containerPort: 80
           protocol: TCP
     - name: db
-      image: mysql:8.0.34
+      image: mysql:8.1
       ports:
         - name: mysql
           containerPort: 3306

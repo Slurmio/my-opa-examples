@@ -1,4 +1,4 @@
-apiVersion: templates.gatekeeper.sh/v1beta1
+apiVersion: templates.gatekeeper.sh/v1
 kind: ConstraintTemplate
 metadata:
   name: checkprivileges 
@@ -9,6 +9,7 @@ spec:
         kind: CheckPrivileges
       validation:
         openAPIV3Schema:
+          type: object
           properties:
             hostNetwork:
               type: boolean

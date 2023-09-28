@@ -1,7 +1,7 @@
-apiVersion: templates.gatekeeper.sh/v1beta1
+apiVersion: templates.gatekeeper.sh/v1
 kind: ConstraintTemplate
 metadata:
-  name: checkpodrepo 
+  name: checkpodrepo
 spec:
   crd:
     spec:
@@ -9,27 +9,29 @@ spec:
         kind: checkpodrepo
       validation:
         openAPIV3Schema:
+          type: object
           properties:
-            repo:
+            repos:
               type: array
-              items: string
+              items:
+                type: string
   targets:
     - target: admission.k8s.gatekeeper.sh
       rego: |
         package checkpodrepo
 
         violation[{"msg": msg}] {
-          containers := input.review.object.spec.containers[_]
-          satisfied := [good | repo = input.parameters.repo[_] ; good = startswith(containers.image, repo)]
+          container := input.review.object.spec.containers[_]
+          satisfied := [good | repo = input.parameters.repos[_] ; good = startswith(container.image, repo)]
           not any(satisfied)
 
-          msg := sprintf("Container image <%v> not in <%v> repo", [containers.image, input.parameters.repo])
+          msg := sprintf("Container image <%v> not in <%v> repo", [container.image, input.parameters.repos])
         }
 
         violation[{"msg": msg}] {
-          containers := input.review.object.spec.containers[_]
-          satisfied := [good | repo = input.parameters.repo[_] ; good = startswith(containers.image, repo)]
+          container := input.review.object.spec.initContainers[_]
+          satisfied := [good | repo = input.parameters.repos[_] ; good = startswith(container.image, repo)]
           not any(satisfied)
 
-          msg := sprintf("Container image <%v> not in <%v> repo", [containers.image, input.parameters.repo])
+          msg := sprintf("Init container image <%v> not in <%v> repo", [container.image, input.parameters.repos])
         }

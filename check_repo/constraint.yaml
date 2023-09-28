@@ -8,6 +8,6 @@ spec:
       - apiGroups: [""]
         kinds: ["Pod"]
   parameters:
-    repo: 
-    - "private.com"
+    repos:
+    - "repo.com"
     - "cool.org"

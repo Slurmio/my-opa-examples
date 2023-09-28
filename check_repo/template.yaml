@@ -1,4 +1,4 @@
-apiVersion: templates.gatekeeper.sh/v1beta1
+apiVersion: templates.gatekeeper.sh/v1
 kind: ConstraintTemplate
 metadata:
   name: checkpodrepo 
@@ -9,6 +9,7 @@ spec:
         kind: checkpodrepo
       validation:
         openAPIV3Schema:
+          type: object
           properties:
             repo:
               type: array

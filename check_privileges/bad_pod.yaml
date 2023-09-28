@@ -5,7 +5,7 @@ metadata:
 spec:
   containers:
   - command: ["/bin/bash", "-c", "sleep 100000"]
-    image: debian
+    image: debian:11.7
     name: bad-pod
     volumeMounts:
     - mountPath: /host
@@ -19,7 +19,7 @@ spec:
   - effect: NoSchedule
     operator: Exists
   nodeSelector:
-    node-role.kubernetes.io/master: ""
+    node-role.kubernetes.io/control-plane: ""
   volumes:
   - hostPath:
       path: /

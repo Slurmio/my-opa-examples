@@ -30,7 +30,7 @@ spec:
 
         violation[{"msg": msg}] {
           container := input.review.object.spec.initContainers[_]
-          satisfied := [good | repo = input.parameters.repo[_] ; good = startswith(container.image, repo)]
+          satisfied := [good | repo = input.parameters.repos[_] ; good = startswith(container.image, repo)]
           not any(satisfied)
 
           msg := sprintf("Init container image <%v> not in <%v> repo", [container.image, input.parameters.repos])
